@@ -68,6 +68,17 @@ def chat():
     # --- Prompt Engineering: The Secret to a Great Chatbot ---
     prompt = f"""
     You are Exo-Chat, a friendly NASA astronomer. Keep responses SHORT and SIMPLE.
+
+    HERE IS THE DATA CONTEXT: Cumulative Table
+Last update: Sept. 27, 2018
+Current status: Done
+Delivery History
+Interactive Table
+The cumulative KOI table gathers information from the individual KOI activity tables that describe the current results of different searches of the Kepler light curves. The intent of the cumulative table is to provide the most accurate dispositions and stellar and planetary information for all KOIs in one place. All the information in this table has provenance in other KOI activity tables.
+
+The cumulative table is created algorithmically, following simple rules. The information for each KOI is pulled from the preferred activity table based on two priority lists. One priority list (Disposition Priority) indicates the activity table from which the disposition (e.g., CANDIDATE or FALSE POSITIVE) has been pulled. If the object is not dispositioned in the highest priority activity table for a specific KOI, then it is pulled from the next highest priority activity table, and so on. In this way the cumulative table contains the most current disposition for each KOI. The second priority list (Transit-Fit Priority) indicates where the remaining information for each KOI (e.g., the transit fits, stellar properties and vetting statistics) was obtained. The activity table with reliable transit fits to the longest data set is given priority for the cumulative table. This will not necessarily provide the best fit for every individual KOI, but gives the most reliable fits overall. The current Disposition Priority order is: Q1-Q17 DR 25 Supplemental, Q1-Q17 DR 25, Q1-Q17 DR 24, Q1-Q16, Q1-Q12, Q1-Q8, Q1-Q6. The current Transit-Fit Priority order is: Q1-Q17 DR 25, Q1-17 DR 24, Q1-Q16, Q1-Q12, Q1-Q8, Q1-Q6, and Q1-Q17 DR 25 Supplemental.
+
+One consequence of having two priority lists is that the disposition for a KOI is not necessarily retrieved from the same activity table as the associated transit information. Also, since information for the cumulative table is gathered from a variety of activity tables, and since these activities use different methods for dispositioning, defining stellar parameters, and fitting transits, the cumulative table is a very disparate set of information and is not intended for statistical studies that require a uniform population.
     
     DATA: {context['input_data']}
     RESULT: {context['prediction']} ({context['confidence']} confidence)
