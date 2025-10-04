@@ -16,35 +16,220 @@
         <div class="main-content">
             <!-- Left Side: Data Input Form -->
             <div class="form-container">
-                <h2>1. Input Observational Data</h2>
+                <div class="input-modes">
+                    <button class="mode-btn active" data-mode="single">🔬 Single Analysis</button>
+                    <button class="mode-btn" data-mode="batch">📊 Batch Analysis</button>
+                </div>
+                
+                <!-- Single Input Mode -->
+                <div id="single-mode" class="input-mode">
+                    <h2>1. Input Observational Data</h2>
                 <form id="prediction-form">
-                    <!-- Add ALL the necessary input fields here. This is a sample. -->
-                    <div class="form-group">
-                        <label for="koi_fpflag_co">Contamination Flag (koi_fpflag_co)</label>
-                        <input type="number" id="koi_fpflag_co" value="0" required>
+                    <!-- Quick Test Button -->
+                    <div class="quick-test">
+                        <button type="button" id="quick-test-btn">🚀 Use Sample Data</button>
                     </div>
-                    <div class="form-group">
-                        <label for="koi_fpflag_ss">Stellar Statistic Flag (koi_fpflag_ss)</label>
-                        <input type="number" id="koi_fpflag_ss" value="0" required>
+                    
+                    <div class="form-sections">
+                        <!-- Essential Parameters -->
+                        <div class="section">
+                            <h3 class="section-header">🌟 Essential Parameters</h3>
+                            <div class="section-content">
+                                <div class="form-group">
+                                    <label for="koi_score">KOI Score</label>
+                                    <input type="number" step="any" id="koi_score" value="0.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_period">Orbital Period [days]</label>
+                                    <input type="number" step="any" id="koi_period" value="9.12" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_duration">Transit Duration [hours]</label>
+                                    <input type="number" step="any" id="koi_duration" value="3.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_depth">Transit Depth [ppm]</label>
+                                    <input type="number" step="any" id="koi_depth" value="150.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_prad">Planet Radius [Earth radii]</label>
+                                    <input type="number" step="any" id="koi_prad" value="1.5" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- False Positive Flags -->
+                        <div class="section collapsed">
+                            <h3 class="section-header">🚩 False Positive Flags</h3>
+                            <div class="section-content">
+                                <div class="form-group">
+                                    <label for="koi_fpflag_nt">Not Transit-Like</label>
+                                    <input type="number" id="koi_fpflag_nt" value="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_fpflag_ss">Stellar Statistic</label>
+                                    <input type="number" id="koi_fpflag_ss" value="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_fpflag_co">Centroid Offset</label>
+                                    <input type="number" id="koi_fpflag_co" value="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_fpflag_ec">Ephemeris Match</label>
+                                    <input type="number" id="koi_fpflag_ec" value="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Advanced Parameters -->
+                        <div class="section collapsed">
+                            <h3 class="section-header">🔬 Advanced Parameters</h3>
+                            <div class="section-content">
+                                <div class="form-group">
+                                    <label for="koi_period_err1">Period Error +</label>
+                                    <input type="number" step="any" id="koi_period_err1" value="0.001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_period_err2">Period Error -</label>
+                                    <input type="number" step="any" id="koi_period_err2" value="-0.001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_time0bk">Transit Time [BKJD]</label>
+                                    <input type="number" step="any" id="koi_time0bk" value="1234.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_impact">Impact Parameter</label>
+                                    <input type="number" step="any" id="koi_impact" value="0.5" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_teq">Equilibrium Temperature [K]</label>
+                                    <input type="number" step="any" id="koi_teq" value="300.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_insol">Insolation [Earth units]</label>
+                                    <input type="number" step="any" id="koi_insol" value="1.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_model_snr">Signal-to-Noise Ratio</label>
+                                    <input type="number" step="any" id="koi_model_snr" value="10.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_tce_plnt_num">TCE Planet Number</label>
+                                    <input type="number" id="koi_tce_plnt_num" value="1" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stellar Properties -->
+                        <div class="section collapsed">
+                            <h3 class="section-header">⭐ Stellar Properties</h3>
+                            <div class="section-content">
+                                <div class="form-group">
+                                    <label for="koi_steff">Stellar Temperature [K]</label>
+                                    <input type="number" step="any" id="koi_steff" value="5778.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_slogg">Surface Gravity</label>
+                                    <input type="number" step="any" id="koi_slogg" value="4.44" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_srad">Stellar Radius [Solar radii]</label>
+                                    <input type="number" step="any" id="koi_srad" value="1.0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="koi_kepmag">Kepler Magnitude</label>
+                                    <input type="number" step="any" id="koi_kepmag" value="12.0" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hidden Fields for Complete Model -->
+                        <div style="display: none;">
+                            <!-- Error fields -->
+                            <input type="number" step="any" id="koi_time0bk_err1" value="0.01">
+                            <input type="number" step="any" id="koi_time0bk_err2" value="-0.01">
+                            <input type="number" step="any" id="koi_impact_err1" value="0.1">
+                            <input type="number" step="any" id="koi_impact_err2" value="-0.1">
+                            <input type="number" step="any" id="koi_duration_err1" value="0.1">
+                            <input type="number" step="any" id="koi_duration_err2" value="-0.1">
+                            <input type="number" step="any" id="koi_depth_err1" value="10.0">
+                            <input type="number" step="any" id="koi_depth_err2" value="-10.0">
+                            <input type="number" step="any" id="koi_prad_err1" value="0.1">
+                            <input type="number" step="any" id="koi_prad_err2" value="-0.1">
+                            <input type="number" step="any" id="koi_teq_err1" value="10.0">
+                            <input type="number" step="any" id="koi_teq_err2" value="-10.0">
+                            <input type="number" step="any" id="koi_insol_err1" value="0.1">
+                            <input type="number" step="any" id="koi_insol_err2" value="-0.1">
+                            <input type="number" step="any" id="koi_steff_err1" value="50.0">
+                            <input type="number" step="any" id="koi_steff_err2" value="-50.0">
+                            <input type="number" step="any" id="koi_slogg_err1" value="0.1">
+                            <input type="number" step="any" id="koi_slogg_err2" value="-0.1">
+                            <input type="number" step="any" id="koi_srad_err1" value="0.1">
+                            <input type="number" step="any" id="koi_srad_err2" value="-0.1">
+                            <input type="number" step="any" id="ra" value="180.0">
+                            <input type="number" step="any" id="dec" value="30.0">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="koi_period">Orbital Period [days]</label>
-                        <input type="number" step="any" id="koi_period" value="9.12" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="koi_duration">Transit Duration [hours]</label>
-                        <input type="number" step="any" id="koi_duration" value="3.5" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="koi_depth">Transit Depth [ppm]</label>
-                        <input type="number" step="any" id="koi_depth" value="150.0" required>
-                    </div>
-                    <button type="submit" id="classify-btn">Classify Candidate</button>
+                    
+                    <button type="submit" id="classify-btn">🚀 CLASSIFY CANDIDATE</button>
                 </form>
                 <div id="result-container" class="hidden">
                     <h2>Classification Result</h2>
                     <p id="prediction-text"></p>
                     <p id="confidence-text"></p>
+                </div>
+                </div>
+                
+                <!-- Batch Analysis Mode -->
+                <div id="batch-mode" class="input-mode hidden">
+                    <h2>📊 Batch Analysis</h2>
+                    <div class="upload-area">
+                        <div class="upload-box" id="upload-box">
+                            <div class="upload-icon">📁</div>
+                            <h3>Upload CSV/Excel File</h3>
+                            <p>Drag & drop your file here or click to browse</p>
+                            <input type="file" id="csv-file-input" accept=".csv,.xlsx,.xls" hidden>
+                            <button type="button" id="browse-btn">Browse Files</button>
+                        </div>
+                        <div class="file-info hidden" id="file-info">
+                            <div class="file-details">
+                                <span class="file-name" id="file-name"></span>
+                                <span class="file-size" id="file-size"></span>
+                                <button type="button" id="remove-file">❌</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-info">
+                        <h4>📋 Template Format</h4>
+                        <p>Your CSV/Excel file should contain these columns:</p>
+                        <div class="required-columns" id="required-columns">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        <button type="button" id="download-template">📥 Download Template</button>
+                    </div>
+                    
+                    <button type="button" id="upload-btn" class="hidden">🚀 Analyze Batch</button>
+                    
+                    <div id="batch-results" class="hidden">
+                        <h3>📊 Batch Results</h3>
+                        <div class="results-summary" id="results-summary"></div>
+                        <div class="results-table-container">
+                            <table id="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Prediction</th>
+                                        <th>Confidence</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="results-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" id="download-results">💾 Download Results</button>
+                    </div>
                 </div>
             </div>
 

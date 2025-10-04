@@ -6,15 +6,29 @@ import pandas as pd
 import numpy as np
 import os
 import google.generativeai as genai
+from dotenv import load_dotenv
+import io
+import uuid
+
+# Load environment variables from .env file
+try:
+    load_dotenv()
+except Exception as e:
+    print(f"Warning: Could not load .env file: {e}")
+    print("Continuing with system environment variables...")
 
 # --- Gemini API Configuration ---
 # IMPORTANT: Set this in your Render environment variables
 api_key = os.environ.get("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
-gemini_model = genai.GenerativeModel('gemini-2.5-flash')
+if api_key:
+    genai.configure(api_key=api_key)
+    gemini_model = genai.GenerativeModel('gemini-2.5-flash')
+else:
+    print("Warning: GEMINI_API_KEY not found. Chat functionality will be limited.")
+    gemini_model = None
 
 # --- Flask App Initialization ---
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
 # --- Load Your Machine Learning Model ---
@@ -53,23 +67,111 @@ def chat():
 
     # --- Prompt Engineering: The Secret to a Great Chatbot ---
     prompt = f"""
-    You are Exo-Chat, a friendly and brilliant NASA astronomer and science communicator. 
-    Your goal is to explain complex exoplanet data in an exciting and easy-to-understand way.
-    A user has just received a classification for a Kepler Object of Interest and has questions.
-
-    HERE IS THE DATA CONTEXT:
-    - Input Data: {context['input_data']}
-    - Model Prediction: The object is classified as a "{context['prediction']}" with {context['confidence']} confidence.
-
-    Based on this context, answer the user's question clearly and enthusiastically. 
-    If they ask about a specific value, explain what it means (e.g., 'koi_period' is how long it takes to orbit its star).
-    Never break character. Be encouraging and spark curiosity about space exploration.
-
-    USER'S QUESTION: "{user_message}"
+    You are Exo-Chat, a friendly NASA astronomer. Keep responses SHORT and SIMPLE.
+    
+    DATA: {context['input_data']}
+    RESULT: {context['prediction']} ({context['confidence']} confidence)
+    
+    Answer the user's question briefly and clearly. Use simple words. Be enthusiastic but concise.
+    
+    USER: "{user_message}"
     """
 
     try:
+        if gemini_model is None:
+            return jsonify({
+                'reply': "I'm sorry, but I'm currently offline. The AI chat feature requires a Gemini API key to be configured. However, I can still help you understand your classification results! Based on your data, this appears to be a " + context['prediction'] + " with " + context['confidence'] + " confidence. This means the machine learning model is quite confident in its assessment of this exoplanet candidate."
+            })
         response = gemini_model.generate_content(prompt)
         return jsonify({'reply': response.text})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/upload-csv', methods=['POST'])
+def upload_csv():
+    try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+        
+        # Read the CSV file
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(file)
+        elif file.filename.endswith(('.xlsx', '.xls')):
+            df = pd.read_excel(file)
+        else:
+            return jsonify({'error': 'File must be CSV or Excel format'}), 400
+        
+        # Check if all required columns are present
+        missing_columns = set(model_columns) - set(df.columns)
+        if missing_columns:
+            return jsonify({
+                'error': f'Missing required columns: {list(missing_columns)}',
+                'required_columns': model_columns
+            }), 400
+        
+        # Select only the required columns and reorder them
+        df_model = df[model_columns].copy()
+        
+        # Add ID column if not present
+        if 'id' not in df.columns:
+            df_model['id'] = [f'KOI_{i+1:03d}' for i in range(len(df_model))]
+        else:
+            df_model['id'] = df['id']
+        
+        # Process each row
+        results = []
+        for idx, row in df_model.iterrows():
+            try:
+                # Prepare data for prediction (exclude id column)
+                prediction_data = row.drop('id').values.reshape(1, -1)
+                
+                # Impute missing values
+                prediction_data_imputed = imputer.transform(prediction_data)
+                
+                # Scale the data
+                prediction_data_scaled = scaler.transform(prediction_data_imputed)
+                
+                # Make prediction
+                prediction_encoded = model.predict(prediction_data_scaled)
+                prediction_proba = model.predict_proba(prediction_data_scaled)
+                
+                # Map prediction
+                mapping = {0: "FALSE POSITIVE", 1: "CONFIRMED", 2: "CANDIDATE"}
+                prediction_label = mapping[prediction_encoded[0]]
+                confidence = np.max(prediction_proba) * 100
+                
+                results.append({
+                    'id': row['id'],
+                    'prediction': prediction_label,
+                    'confidence': f"{confidence:.2f}%",
+                    'status': 'success'
+                })
+                
+            except Exception as e:
+                results.append({
+                    'id': row.get('id', f'KOI_{idx+1:03d}'),
+                    'prediction': 'ERROR',
+                    'confidence': '0.00%',
+                    'status': 'error',
+                    'error': str(e)
+                })
+        
+        return jsonify({
+            'results': results,
+            'total_processed': len(results),
+            'successful': len([r for r in results if r['status'] == 'success'])
+        })
+        
+    except Exception as e:
+        return jsonify({'error': f'Processing error: {str(e)}'}), 500
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
