@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exoplanet AI Analyst</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Exoplanet AI Analyst</h1>
+            <p>Classify a Kepler Object of Interest (KOI) and discuss the results with our AI Astronomer.</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Side: Data Input Form -->
+            <div class="form-container">
+                <h2>1. Input Observational Data</h2>
+                <form id="prediction-form">
+                    <!-- Add ALL the necessary input fields here. This is a sample. -->
+                    <div class="form-group">
+                        <label for="koi_fpflag_co">Contamination Flag (koi_fpflag_co)</label>
+                        <input type="number" id="koi_fpflag_co" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="koi_fpflag_ss">Stellar Statistic Flag (koi_fpflag_ss)</label>
+                        <input type="number" id="koi_fpflag_ss" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="koi_period">Orbital Period [days]</label>
+                        <input type="number" step="any" id="koi_period" value="9.12" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="koi_duration">Transit Duration [hours]</label>
+                        <input type="number" step="any" id="koi_duration" value="3.5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="koi_depth">Transit Depth [ppm]</label>
+                        <input type="number" step="any" id="koi_depth" value="150.0" required>
+                    </div>
+                    <button type="submit" id="classify-btn">Classify Candidate</button>
+                </form>
+                <div id="result-container" class="hidden">
+                    <h2>Classification Result</h2>
+                    <p id="prediction-text"></p>
+                    <p id="confidence-text"></p>
+                </div>
+            </div>
+
+            <!-- Right Side: Chatbot -->
+            <div class="chat-container">
+                <h2>2. Chat with Exo-Chat AI</h2>
+                <div class="chat-window" id="chat-window">
+                    <div class="bot-message">
+                        <p>Hello! I'm Exo-Chat. Please classify a candidate on the left, and then I can help you analyze the results!</p>
+                    </div>
+                </div>
+                <form id="chat-form">
+                    <input type="text" id="chat-input" placeholder="Ask about the results..." disabled>
+                    <button type="submit" id="chat-send-btn" disabled>Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
