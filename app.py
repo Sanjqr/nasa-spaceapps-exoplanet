@@ -11,8 +11,7 @@ import google.generativeai as genai
 # IMPORTANT: Set this in your Render environment variables
 api_key = os.environ.get("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
-# Using Gemini 1.5 Flash - a fast and capable model
-gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+gemini_model = genai.GenerativeModel('gemini-2.5-flash')
 
 # --- Flask App Initialization ---
 app = Flask(__name__)
