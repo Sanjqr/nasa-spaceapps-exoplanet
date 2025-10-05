@@ -3,37 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exoplanet AI Analyst</title>
+    <title>Exoplanet Discovery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◉</span>
+                <span class="logo-text">EXOPLANET</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active">HOME</a>
+                <a href="#" class="nav-link">DISCOVER</a>
+                <a href="#" class="nav-link">ANALYZE</a>
+                <a href="#" class="nav-link">ABOUT</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
-            <h1>Exoplanet AI Analyst</h1>
-            <p>Classify a Kepler Object of Interest (KOI) and discuss the results with our AI Astronomer.</p>
+            <h1>EXOPLANET CLASSIFICATION</h1>
+            <p>Advanced AI-powered analysis of Kepler Objects of Interest</p>
         </header>
 
         <div class="main-content">
-            <!-- Left Side: Data Input Form -->
             <div class="form-container">
                 <div class="input-modes">
-                    <button class="mode-btn active" data-mode="single">🔬 Single Analysis</button>
-                    <button class="mode-btn" data-mode="batch">📊 Batch Analysis</button>
+                    <button class="mode-btn active" data-mode="single">SINGLE ANALYSIS</button>
+                    <button class="mode-btn" data-mode="batch">BATCH ANALYSIS</button>
                 </div>
                 
-                <!-- Single Input Mode -->
                 <div id="single-mode" class="input-mode">
-                    <h2>1. Input Observational Data</h2>
+                    <h2>01 // INPUT OBSERVATIONAL DATA</h2>
                 <form id="prediction-form">
-                    <!-- Quick Test Button -->
                     <div class="quick-test">
-                        <button type="button" id="quick-test-btn">🚀 Use Sample Data</button>
+                        <button type="button" id="quick-test-btn">USE SAMPLE DATA</button>
                     </div>
                     
                     <div class="form-sections">
-                        <!-- Essential Parameters -->
                         <div class="section">
-                            <h3 class="section-header">🌟 Essential Parameters</h3>
+                            <h3 class="section-header">ESSENTIAL PARAMETERS</h3>
                             <div class="section-content">
                                 <div class="form-group">
                                     <label for="koi_score">KOI Score</label>
@@ -58,9 +76,8 @@
                             </div>
                         </div>
                         
-                        <!-- False Positive Flags -->
                         <div class="section collapsed">
-                            <h3 class="section-header">🚩 False Positive Flags</h3>
+                            <h3 class="section-header">FALSE POSITIVE FLAGS</h3>
                             <div class="section-content">
                                 <div class="form-group">
                                     <label for="koi_fpflag_nt">Not Transit-Like</label>
@@ -81,9 +98,8 @@
                             </div>
                         </div>
                         
-                        <!-- Advanced Parameters -->
                         <div class="section collapsed">
-                            <h3 class="section-header">🔬 Advanced Parameters</h3>
+                            <h3 class="section-header">ADVANCED PARAMETERS</h3>
                             <div class="section-content">
                                 <div class="form-group">
                                     <label for="koi_period_err1">Period Error +</label>
@@ -120,9 +136,8 @@
                             </div>
                         </div>
                         
-                        <!-- Stellar Properties -->
                         <div class="section collapsed">
-                            <h3 class="section-header">⭐ Stellar Properties</h3>
+                            <h3 class="section-header">STELLAR PROPERTIES</h3>
                             <div class="section-content">
                                 <div class="form-group">
                                     <label for="koi_steff">Stellar Temperature [K]</label>
@@ -171,25 +186,24 @@
                         </div>
                     </div>
                     
-                    <button type="submit" id="classify-btn">🚀 CLASSIFY CANDIDATE</button>
+                    <button type="submit" id="classify-btn">CLASSIFY CANDIDATE</button>
                 </form>
                 <div id="result-container" class="hidden">
-                    <h2>Classification Result</h2>
+                    <h2>02 // CLASSIFICATION RESULT</h2>
                     <p id="prediction-text"></p>
                     <p id="confidence-text"></p>
                 </div>
                 </div>
                 
-                <!-- Batch Analysis Mode -->
                 <div id="batch-mode" class="input-mode hidden">
-                    <h2>📊 Batch Analysis</h2>
+                    <h2>BATCH ANALYSIS</h2>
                     <div class="upload-area">
                         <div class="upload-box" id="upload-box">
-                            <div class="upload-icon">📁</div>
-                            <h3>Upload CSV/Excel File</h3>
+                            <div class="upload-icon">+</div>
+                            <h3>UPLOAD DATA FILE</h3>
                             <p>Drag & drop your file here or click to browse</p>
                             <input type="file" id="csv-file-input" accept=".csv,.xlsx,.xls" hidden>
-                            <button type="button" id="browse-btn">Browse Files</button>
+                            <button type="button" id="browse-btn">BROWSE FILES</button>
                         </div>
                         <div class="file-info hidden" id="file-info">
                             <div class="file-details">
@@ -201,18 +215,18 @@
                     </div>
                     
                     <div class="template-info">
-                        <h4>📋 Template Format</h4>
+                        <h4>TEMPLATE FORMAT</h4>
                         <p>Your CSV/Excel file should contain these columns:</p>
                         <div class="required-columns" id="required-columns">
                             <!-- Will be populated by JavaScript -->
                         </div>
-                        <button type="button" id="download-template">📥 Download Template</button>
+                        <button type="button" id="download-template">DOWNLOAD TEMPLATE</button>
                     </div>
                     
-                    <button type="button" id="upload-btn" class="hidden">🚀 Analyze Batch</button>
+                    <button type="button" id="upload-btn" class="hidden">ANALYZE BATCH</button>
                     
                     <div id="batch-results" class="hidden">
-                        <h3>📊 Batch Results</h3>
+                        <h3>BATCH RESULTS</h3>
                         <div class="results-summary" id="results-summary"></div>
                         <div class="results-table-container">
                             <table id="results-table">
@@ -228,22 +242,28 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button type="button" id="download-results">💾 Download Results</button>
+                        <button type="button" id="download-results">DOWNLOAD RESULTS</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Side: Chatbot -->
-            <div class="chat-container">
-                <h2>2. Chat with Exo-Chat AI</h2>
+            <button class="chat-toggle" id="chat-toggle">
+                <span class="chat-icon">AI</span>
+            </button>
+
+            <div class="chat-container" id="chat-container">
+                <div class="chat-header">
+                    <h3>EXOPLANET AI ASSISTANT</h3>
+                    <button class="chat-close" id="chat-close">×</button>
+                </div>
                 <div class="chat-window" id="chat-window">
                     <div class="bot-message">
-                        <p>Hello! I'm Exo-Chat. Please classify a candidate on the left, and then I can help you analyze the results!</p>
+                        <p>Hello! I'm your AI assistant. Please classify a candidate first, then I can help analyze the results.</p>
                     </div>
                 </div>
                 <form id="chat-form">
                     <input type="text" id="chat-input" placeholder="Ask about the results..." disabled>
-                    <button type="submit" id="chat-send-btn" disabled>Send</button>
+                    <button type="submit" id="chat-send-btn" disabled>SEND</button>
                 </form>
             </div>
         </div>

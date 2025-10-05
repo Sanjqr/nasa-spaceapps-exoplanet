@@ -9,6 +9,9 @@ const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const chatSendBtn = document.getElementById('chat-send-btn');
 const chatWindow = document.getElementById('chat-window');
+const chatContainer = document.getElementById('chat-container');
+const chatToggle = document.getElementById('chat-toggle');
+const chatClose = document.getElementById('chat-close');
 
 // --- API URLs ---
 // Automatically detect environment
@@ -106,9 +109,18 @@ predictionForm.addEventListener('submit', async (event) => {
         predictionText.textContent = 'Error making prediction.';
         confidenceText.textContent = '';
     } finally {
-        classifyBtn.textContent = 'Classify Candidate';
+        classifyBtn.textContent = 'CLASSIFY CANDIDATE';
         classifyBtn.disabled = false;
     }
+});
+
+// --- Chat Toggle Functionality ---
+chatToggle.addEventListener('click', () => {
+    chatContainer.classList.add('open');
+});
+
+chatClose.addEventListener('click', () => {
+    chatContainer.classList.remove('open');
 });
 
 // --- Chat Form Logic ---
@@ -302,7 +314,7 @@ uploadBtn.addEventListener('click', async () => {
         console.error('Upload error:', error);
         alert('Upload failed. Please try again.');
     } finally {
-        uploadBtn.textContent = '🚀 Analyze Batch';
+        uploadBtn.textContent = 'ANALYZE BATCH';
         uploadBtn.disabled = false;
     }
 });
