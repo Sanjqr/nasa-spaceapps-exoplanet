@@ -35,23 +35,15 @@ body {
 }
 
 .stars {
-    background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><circle cx="1" cy="1" r="0.5" fill="white" opacity="0.8"/></svg>') repeat;
-    animation: animateStars 50s linear infinite;
+    background: transparent;
 }
 
 .stars2 {
-    background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="3" height="3"><circle cx="1.5" cy="1.5" r="0.8" fill="white" opacity="0.5"/></svg>') repeat;
-    animation: animateStars 100s linear infinite;
+    background: transparent;
 }
 
 .stars3 {
-    background: transparent url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><circle cx="2" cy="2" r="1" fill="white" opacity="0.3"/></svg>') repeat;
-    animation: animateStars 150s linear infinite;
-}
-
-@keyframes animateStars {
-    from { transform: translateY(0px); }
-    to { transform: translateY(-2000px); }
+    background: transparent;
 }
 
 .navbar {
@@ -846,6 +838,11 @@ button:disabled {
 
 .error {
     color: #ff4444;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
 }
 
 @media (max-width: 768px) {
